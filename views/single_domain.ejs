@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Domain - Postmaster Insights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+   <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0b1120; }
+    .glass-card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .sidebar { background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px); border-right: 1px solid rgba(255, 255, 255, 0.1); }
+    .xl\:col-span-1 > .glass-card:first-child { position: relative; z-index: 20; }
+    .choices { --choices-bg-color: #1f2937; --choices-input-color: #d1d5db; --choices-border-color: #374151; --choices-highlight-color: #3b82f6; --choices-dropdown-bg-color: #111827; --choices-dropdown-item-text-color: #d1d5db; }
+    .choices__inner { background-color: var(--choices-bg-color) !important; border: 1px solid var(--choices-border-color) !important; color: var(--choices-input-color) !important; border-radius: 0.5rem; min-height: auto; padding: 0.5rem 1rem; }
+    .choices__list--dropdown, .choices__list[aria-expanded] { background-color: var(--choices-dropdown-bg-color) !important; border: 1px solid var(--choices-border-color) !important; border-radius: 0.5rem; }
+    .choices__list--dropdown .choices__item--selectable.is-highlighted { background-color: var(--choices-highlight-color) !important; color: white !important; }
+    .choices__item--choice { color: var(--choices-dropdown-item-text-color) !important; border-bottom: 1px solid var(--choices-border-color) !important; }
+    .choices__item--choice:last-child { border-bottom: none !important; }
+    .choices__input { background-color: transparent !important; color: var(--choices-input-color) !important; }
+    .choices__list--single { padding: 0; }
+    .choices[data-type*="select-one"]::after { border-color: #9ca3af transparent transparent; margin-top: -2.5px; }
+    .choices[data-type*="select-one"].is-open::after { border-color: transparent transparent #9ca3af; margin-top: -7.5px; }
+</style>
+
+</head>
+
+<body class="text-gray-200">
+    <div class="flex min-h-screen">
+        <aside class="sidebar w-20 flex flex-col items-center space-y-6 py-6 fixed h-full z-10">
+            <a href="/custom" class="text-blue-400" title="Postmaster Insights">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.86-1.981LT18 17.25a2.25 2.25 0 01-2.25 2.25H8.25A2.25 2.25 0 016 17.25l-2.732-1.468m15.464-11.41L12 2.25 2.25 9" /></svg>
+            </a>
+            <nav class="flex flex-col items-center space-y-4 flex-grow">
+                <a href="/domain" title="Single Domain" class="p-3 rounded-lg bg-blue-500/20 text-blue-400 transition-colors">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+                </a>
+                <a href="/custom" title="Custom List" class="p-3 rounded-lg hover:bg-white/10 transition-colors">
+                    <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
+                </a>
+            </nav>
+            <a href="/logout" title="Logout" class="p-3 rounded-lg hover:bg-white/10 transition-colors">
+                <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+            </a>
+        </aside>
+
+        <main class="ml-20 w-full p-6 lg:p-10">
+            <h1 class="text-3xl font-bold mb-8 text-white">Single Domain Dashboard</h1>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div class="xl:col-span-1 flex flex-col gap-8">
+                    <div class="glass-card rounded-xl p-6">
+                        <label for="domain-select" class="block text-gray-300 font-medium mb-3">Select Domain</label>
+                        <select id="domain-select" class="w-full"></select>
+                    </div>
+
+                    <div id="summary-section" class="space-y-4">
+                    </div>
+                </div>
+
+                <div class="xl:col-span-2 glass-card rounded-xl p-6">
+                    <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4 mb-6">
+                        <h2 class="text-xl font-semibold text-white">Historical Data</h2>
+                        <div class="flex items-center space-x-4">
+                            <input type="text" id="chart-date-picker" placeholder="Select Date Range..." class="glass-card shadow-inner rounded-lg py-2.5 px-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
+                            <button id="load-chart-button" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-5 rounded-lg transition-colors">Load</button>
+                        </div>
+                    </div>
+                    <div id="charts-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-md font-medium text-gray-300 mb-2 text-center">User-Reported Spam (%)</h3>
+                            <canvas id="userSpamChart"></canvas>
+                        </div>
+                        <div>
+                            <h3 class="text-md font-medium text-gray-300 mb-2 text-center">Delivery Errors (%)</h3>
+                            <canvas id="deliveryErrorsChart"></canvas>
+                        </div>
+                        <div>
+                            <h3 class="text-md font-medium text-gray-300 mb-2 text-center">Domain Reputation</h3>
+                            <canvas id="domainRepChart"></canvas>
+                        </div>
+                        <div>
+                            <h3 class="text-md font-medium text-gray-300 mb-2 text-center">IP Reputation</h3>
+                            <canvas id="ipRepChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        const domainSelect = document.getElementById('domain-select');
+        const summarySection = document.getElementById('summary-section');
+        const loadChartButton = document.getElementById('load-chart-button');
+
+        let currentDomain = '';
+        let choicesInstance = null;
+        let chartStartDate = moment().subtract(8, 'days').format('YYYY-MM-DD');
+        let chartEndDate = moment().subtract(2, 'days').format('YYYY-MM-DD');
+
+        let userSpamChart, deliveryErrorsChart, domainRepChart, ipRepChart;
+        const repLabels = { 0: 'NONE', 1: 'BAD', 2: 'LOW', 3: 'MEDIUM', 4: 'HIGH' };
+
+        flatpickr("#chart-date-picker", {
+            mode: "range", dateFormat: "Y-m-d", defaultDate: [chartStartDate, chartEndDate],
+            maxDate: moment().subtract(2, 'days').toDate(),
+            onClose: (selectedDates) => {
+                if (selectedDates.length === 2) {
+                    chartStartDate = moment(selectedDates[0]).format('YYYY-MM-DD');
+                    chartEndDate = moment(selectedDates[1]).format('YYYY-MM-DD');
+                }
+            }
+        });
+
+        async function fetchAllDomainData(domain) {
+            if (!domain) return;
+            summarySection.innerHTML = '<p class="text-center text-gray-400">Loading metrics...</p>';
+            await Promise.all([
+                fetchLatestStat(domain),
+                fetchChartData(domain, chartStartDate, chartEndDate)
+            ]);
+        }
+        
+        async function fetchLatestStat(domain) {
+            const response = await fetch(`/api/stat/${domain}`);
+            if (!response.ok) {
+                renderSummaryCards({});
+                return;
+            }
+            const data = await response.json();
+            renderSummaryCards(data);
+        }
+
+        async function fetchChartData(domain, startDate, endDate) {
+            const response = await fetch(`/api/historical_stats/${domain}?start_date=${startDate}&end_date=${endDate}`);
+            const data = await response.json();
+            renderCharts(data);
+        }
+
+        function getReputationColor(rep) {
+            const colors = {
+                'HIGH': 'bg-green-500/20 text-green-300', 'MEDIUM': 'bg-yellow-500/20 text-yellow-300',
+                'LOW': 'bg-orange-500/20 text-orange-300', 'BAD': 'bg-red-500/20 text-red-300'
+            };
+            return colors[rep] || 'bg-gray-500/20 text-gray-300';
+        }
+
+        function renderSummaryCards(data) {
+            const domainRep = data.overall_reputation || 'NONE';
+            const ipRep = data.true_ip_reputation || 'NONE';
+
+            summarySection.innerHTML = `
+                <div class="glass-card rounded-xl p-5">
+                    <p class="text-sm text-gray-400 mb-1">Last Updated</p>
+                    <p class="text-xl font-semibold text-white">${data.date || '-'}</p>
+                </div>
+                <div class="glass-card rounded-xl p-5">
+                    <p class="text-sm text-gray-400 mb-1">Domain Reputation</p>
+                    <p class="text-xl font-semibold text-white">
+                        ${(domainRep !== 'NONE')
+                            ? `<span class="px-2.5 py-0.5 text-sm rounded-full ${getReputationColor(domainRep)}">${domainRep}</span>`
+                            : '-'
+                        }
+                    </p>
+                </div>
+                 <div class="glass-card rounded-xl p-5">
+                    <p class="text-sm text-gray-400 mb-1">IP Reputation</p>
+                    <p class="text-xl font-semibold text-white">
+                        ${(ipRep !== 'NONE')
+                            ? `<span class="px-2.5 py-0.5 text-sm rounded-full ${getReputationColor(ipRep)}">${ipRep}</span>`
+                            : '-'
+                        }
+                    </p>
+                </div>
+                <div class="glass-card rounded-xl p-5">
+                    <p class="text-sm text-gray-400 mb-1">User Reported Spam</p>
+                    <p class="text-xl font-semibold text-white">${data.user_reported_spam_rate != null ? data.user_reported_spam_rate.toFixed(2) + '%' : '-'}</p>
+                </div>
+                 <div class="glass-card rounded-xl p-5">
+                    <p class="text-sm text-gray-400 mb-1">Delivery Errors</p>
+                    <p class="text-xl font-semibold text-white">${data.delivery_errors_rate != null ? data.delivery_errors_rate.toFixed(2) + '%' : '-'}</p>
+                </div>
+            `;
+        }
+
+        function createOrUpdateChart(instance, canvasId, type, labels, datasets, options) {
+            if (instance) instance.destroy();
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, { type, data: { labels, datasets }, options });
+        }
+        
+        function renderCharts(data) {
+            const chartOptions = {
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(255, 255, 255, 0.1)' }, min: 0 },
+                    x: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                }
+            };
+            const repChartOptions = {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        ticks: { color: '#d1d5db', stepSize: 1, callback: v => repLabels[v] || '' },
+                        min: 0, max: 4, grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                },
+                plugins: {
+                    ...chartOptions.plugins,
+                    tooltip: { callbacks: { label: item => repLabels[item.raw] || '' } }
+                }
+            };
+
+            userSpamChart = createOrUpdateChart(userSpamChart, 'userSpamChart', 'line', data.labels,
+                [{ data: data.userReportedSpam, borderColor: '#60a5fa', tension: 0.2, pointRadius: 4, pointBackgroundColor: '#60a5fa' }], chartOptions
+            );
+            deliveryErrorsChart = createOrUpdateChart(deliveryErrorsChart, 'deliveryErrorsChart', 'line', data.labels,
+                [{ data: data.deliveryErrors, borderColor: '#f87171', tension: 0.2, pointRadius: 4, pointBackgroundColor: '#f87171' }], chartOptions
+            );
+            domainRepChart = createOrUpdateChart(domainRepChart, 'domainRepChart', 'line', data.labels,
+                [{ data: data.domainReputation, borderColor: '#34d399', stepped: true, pointRadius: 4, pointBackgroundColor: '#34d399' }], repChartOptions
+            );
+            ipRepChart = createOrUpdateChart(ipRepChart, 'ipRepChart', 'line', data.labels,
+                [{ data: data.ipReputation, borderColor: '#facc15', stepped: true, pointRadius: 4, pointBackgroundColor: '#facc15' }], repChartOptions
+            );
+        }
+
+        async function populateDomainsDropdown() {
+            const response = await fetch('/api/domains');
+            const domains = await response.json();
+            domainSelect.innerHTML = '';
+            if (domains.length > 0) { domains.forEach(d => domainSelect.appendChild(new Option(d, d))); }
+            if (choicesInstance) choicesInstance.destroy();
+            choicesInstance = new Choices(domainSelect, { searchEnabled: true, itemSelectText: 'Select', shouldSort: false });
+            const urlParams = new URLSearchParams(window.location.search);
+            currentDomain = urlParams.get('name') || domains[0];
+            if (currentDomain) {
+                choicesInstance.setChoiceByValue(currentDomain);
+                fetchAllDomainData(currentDomain);
+            }
+        }
+
+        domainSelect.addEventListener('change', (event) => {
+            if (event.target.value) {
+                currentDomain = event.target.value;
+                fetchAllDomainData(currentDomain);
+            }
+        });
+
+        loadChartButton.addEventListener('click', () => {
+            if (currentDomain) fetchChartData(currentDomain, chartStartDate, chartEndDate);
+        });
+
+        document.addEventListener('DOMContentLoaded', populateDomainsDropdown);
+    </script>
+</body>
+</html>

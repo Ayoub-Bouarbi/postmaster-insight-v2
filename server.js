@@ -9,20 +9,27 @@ const { PostmasterToolsClient } = require('./postmaster-api');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 // Multer setup for in-memory file storage
 const upload = multer({ storage: multer.memoryStorage() });
 
 // --- Middleware Setup ---
 app.set('view engine', 'ejs');
+// Trust proxy so secure cookies work correctly behind Vercel/HTTPS
+app.set('trust proxy', 1);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(session({
-    secret: 'a-very-secret-and-random-string-for-nodejs',
+    name: 'pm.sid',
+    secret: process.env.SESSION_SECRET || 'a-very-secret-and-random-string-for-nodejs',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    proxy: true,
     cookie: {
-        secure: false, // Set to true in production with HTTPS
+        httpOnly: true,
+        secure: IS_PROD, // true on Vercel/HTTPS
+        sameSite: 'lax', // allow OAuth redirect back
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));

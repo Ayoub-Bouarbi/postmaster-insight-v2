@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const multer = require('multer');
@@ -20,16 +21,25 @@ app.set('view engine', 'ejs');
 app.set('trust proxy', 1);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+// --- UPDATED SESSION CONFIGURATION ---
 app.use(session({
     name: 'pm.sid',
     secret: process.env.SESSION_SECRET || 'a-very-secret-and-random-string-for-nodejs',
     resave: false,
     saveUninitialized: false,
     proxy: true,
+    // ADD THE STORE CONFIGURATION:
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI, // You must set this environment variable in Vercel
+        ttl: 14 * 24 * 60 * 60, // Session will live for 14 days
+        autoRemove: 'interval',
+        autoRemoveInterval: 10, // In minutes. Will clean up expired sessions.
+    }),
     cookie: {
         httpOnly: true,
         secure: IS_PROD, // true on Vercel/HTTPS
-        sameSite: 'lax', // allow OAuth redirect back
+        sameSite: 'lax', 
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));

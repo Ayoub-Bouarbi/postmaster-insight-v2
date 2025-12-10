@@ -31,7 +31,7 @@ app.use(session({
     proxy: true,
     // ADD THE STORE CONFIGURATION:
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI, // You must set this environment variable in Vercel
+        mongoUrl: process.env.MONGODB_URI, // You must set this environment variable in Vercel
         ttl: 14 * 24 * 60 * 60, // Session will live for 14 days
         autoRemove: 'interval',
         autoRemoveInterval: 10, // In minutes. Will clean up expired sessions.
